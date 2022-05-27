@@ -3,6 +3,7 @@ import 'package:ecommerce/pages/categories.dart';
 import 'package:ecommerce/pages/home.dart';
 import 'package:ecommerce/pages/mycart.dart';
 import 'package:ecommerce/pages/mylist.dart';
+import 'package:ecommerce/pages/searchpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,24 +32,27 @@ class CoreState extends State<Core> {
             index: state.pageIndex.value,
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            fixedColor: Colors.orange[700],
-            currentIndex: state.pageIndex.value,
-            onTap: (newIndex) {
-              state.categoryPageLvl.value = 0;
-              state.pageIndex.value = newIndex;
-            },
-            items: const [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.home), label: 'Anasayfam'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.category), label: 'Kategorilerim'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.shopping_cart), label: 'Sepetim'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.list), label: 'Listelerim'),
-            ]),
+        bottomNavigationBar: SizedBox(
+          height: 56,
+          child: BottomNavigationBar(
+              type: BottomNavigationBarType.fixed,
+              fixedColor: Colors.orange[700],
+              currentIndex: state.pageIndex.value,
+              onTap: (newIndex) {
+                state.categoryPageLvl.value = 'category';
+                state.pageIndex.value = newIndex;
+              },
+              items: const [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.home), label: 'Anasayfam'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.category), label: 'Kategorilerim'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.shopping_cart), label: 'Sepetim'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.list), label: 'Listelerim'),
+              ]),
+        ),
       ),
     );
   }

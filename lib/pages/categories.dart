@@ -1,4 +1,8 @@
+import 'package:ecommerce/components/CategoriesComponents.dart';
+import 'package:ecommerce/globalstate.dart';
+import 'package:ecommerce/pages/searchpage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class Categories extends StatefulWidget {
   const Categories({Key? key}) : super(key: key);
@@ -8,42 +12,52 @@ class Categories extends StatefulWidget {
 }
 
 class _CategoriesState extends State<Categories> {
-  final Color grey = const Color.fromARGB(255, 180, 180, 180);
-  final double size = 26;
+  void back() {
+    globalState.categoryPageLvl.value = 'category';
+  }
+
+  GlobalState globalState = Get.find();
   @override
   Widget build(BuildContext context) {
     double x = MediaQuery.of(context).size.width;
     double y = MediaQuery.of(context).size.height;
-    return SizedBox(
-      width: x,
-      height: y,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(14),
-            child: Card(
-              elevation: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
+    return WillPopScope(
+      onWillPop: () async {
+        if (globalState.categoryPageLvl.value == 'search') {
+          back();
+          return false;
+        } else {
+          return true;
+        }
+      },
+      child: Obx(
+        () => globalState.categoryPageLvl.value == 'category'
+            ? SizedBox(
+                width: x,
+                height: y,
+                child: Column(
                   children: [
-                    Icon(Icons.search, color: grey, size: size),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Ürün,kategori veya marka ara',
-                      style:
-                          TextStyle(color: Colors.grey.shade600, fontSize: 15),
-                    ),
-                    const Spacer(),
-                    Icon(Icons.mic, color: grey, size: size),
-                    const SizedBox(width: 5),
-                    Icon(Icons.camera_alt, color: grey, size: size),
+                    CategoriesHeader(),
+                    Expanded(
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 75,
+                            color: Colors.blue,
+                          ),
+                          Expanded(
+                            child: Container(
+                              width: 30,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              ),
-            ),
-          )
-        ],
+              )
+            : SearchPage(() => back()),
       ),
     );
   }
