@@ -9,8 +9,6 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final Color grey = const Color.fromARGB(255, 180, 180, 180);
-  final double size = 26;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -36,11 +34,21 @@ class _SearchPageState extends State<SearchPage> {
                 ),
               )),
               const Spacer(),
-              Hero(tag: 'mic', child: Icon(Icons.mic, color: grey, size: size)),
-              const SizedBox(width: 10),
               Hero(
-                  tag: 'camera',
-                  child: Icon(Icons.camera_alt, color: grey, size: size)),
+                tag: 'mic',
+                child: Image.asset(
+                  'assets/icons/mic.png',
+                  width: 14,
+                ),
+              ),
+              const SizedBox(width: 15),
+              Hero(
+                tag: 'camera',
+                child: Image.asset(
+                  'assets/icons/camera.png',
+                  width: 20,
+                ),
+              ),
             ]),
           ),
         )

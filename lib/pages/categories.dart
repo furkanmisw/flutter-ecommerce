@@ -1,5 +1,8 @@
-import 'package:ecommerce/components/CategoriesComponents.dart';
+import 'package:ecommerce/Utils/api.dart';
+import 'package:ecommerce/components/categoriescomponents.dart';
 import 'package:ecommerce/globalstate.dart';
+import 'package:ecommerce/model/categoriesModel.dart';
+import 'package:ecommerce/model/categoryadatamodel.dart';
 import 'package:ecommerce/pages/searchpage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,7 +19,25 @@ class _CategoriesState extends State<Categories> {
     globalState.categoryPageLvl.value = 'category';
   }
 
+  List<CategoriesModel> categoriesData = [];
+  List<CategoryDataModel> categoryItemsData = [];
   GlobalState globalState = Get.find();
+  int selected = 0;
+  int selectedCategorySub = 0;
+  @override
+  void initState() {
+    super.initState();
+    start();
+  }
+
+  Future<void> start() async {
+    categoriesData = await Api.categoryNamesGet();
+    selected = categoriesData.first.id;
+    categoryItemsData = await Api.getCategoryData(selected);
+    selectedCategorySub = categoryItemsData.first.id;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     double x = MediaQuery.of(context).size.width;
@@ -41,14 +62,44 @@ class _CategoriesState extends State<Categories> {
                     Expanded(
                       child: Row(
                         children: [
-                          Container(
-                            width: 75,
-                            color: Colors.blue,
+                          SizedBox(
+                            width: 90,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                  children: categoriesData
+                                      .map(
+                                        (e) => CategoryItem(
+                                          e,
+                                          (id) async {
+                                            categoryItemsData =
+                                                await Api.getCategoryData(id);
+                                            selected = e.id;
+                                            selectedCategorySub =
+                                                categoryItemsData.first.id;
+                                            setState(() {});
+                                          },
+                                          selected == e.id,
+                                        ),
+                                      )
+                                      .toList()),
+                            ),
                           ),
                           Expanded(
-                            child: Container(
-                              width: 30,
-                              color: Colors.red,
+                            child: SizedBox(
+                              height: y,
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  children: categoryItemsData
+                                      .map(
+                                        (data) => CategoriSubItem(data,
+                                            selectedCategorySub == data.id, (xdd) {
+                                          selectedCategorySub = xdd;
+                                          setState(() {});
+                                        }),
+                                      )
+                                      .toList(),
+                                ),
+                              ),
                             ),
                           ),
                         ],
