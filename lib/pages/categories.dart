@@ -92,7 +92,8 @@ class _CategoriesState extends State<Categories> {
                                   children: categoryItemsData
                                       .map(
                                         (data) => CategoriSubItem(data,
-                                            selectedCategorySub == data.id, (xdd) {
+                                            selectedCategorySub == data.id,
+                                            (xdd) {
                                           selectedCategorySub = xdd;
                                           setState(() {});
                                         }),

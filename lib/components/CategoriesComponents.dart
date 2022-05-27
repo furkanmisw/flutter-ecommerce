@@ -179,9 +179,13 @@ class _CategoriSubItemState extends State<CategoriSubItem> {
               const Divider(),
               Visibility(
                 visible: widget.open,
-                child: Column(
-                  children:
-                      widget.data.children.map((e) => const Text('a')).toList(),
+                child: Container(
+                  color: Colors.blue,
+                  child: Column(
+                    children: widget.data.children
+                        .map((data) => CategoryChildrenItems(data))
+                        .toList(),
+                  ),
                 ),
               ),
             ],
@@ -193,15 +197,22 @@ class _CategoriSubItemState extends State<CategoriSubItem> {
 }
 
 class CategoryChildrenItems extends StatelessWidget {
-  String title, image;
-  int id;
-  CategoryChildrenItems(
-      {Key? key, required this.id, required this.image, required this.title})
-      : super(key: key);
+  var data;
+  CategoryChildrenItems(this.data);
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [Card(), Text(title)],
+      children: [
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Image.network(
+              data['iconUrl'].toString().replaceAll('{size}', '50-50'),
+            ),
+          ),
+        ),
+        Text(data['title'].toString()),
+      ],
     );
   }
 }
