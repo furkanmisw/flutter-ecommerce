@@ -137,6 +137,7 @@ class _CategoriSubItemState extends State<CategoriSubItem> {
       onTap: () {
         if (widget.data.children.isEmpty) {
           return;
+          //
         }
         widget.open = !widget.open;
         widget.otherClose(widget.open ? widget.data.id : 0);
