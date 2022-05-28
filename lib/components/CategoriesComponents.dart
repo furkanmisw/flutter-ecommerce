@@ -99,7 +99,8 @@ class CategoryItem extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 6),
               child: Column(children: [
-                Image.network(data.iconUrl.replaceAll('{size}', '50-50')),
+                Image.network(data.iconUrl.replaceAll('{size}', '100-100'),
+                    height: 50, width: 50),
                 const Spacer(flex: 2),
                 Text(
                   data.title,
@@ -159,10 +160,11 @@ class _CategoriSubItemState extends State<CategoriSubItem> {
                   children: [
                     Text(
                       widget.data.title,
+                      maxLines: 2,
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         color: Colors.grey.shade700,
-                        fontSize: widget.open ? 15 : 13,
+                        fontSize: widget.open ? 14 : 12,
                       ),
                     ),
                     const Spacer(),
@@ -179,13 +181,10 @@ class _CategoriSubItemState extends State<CategoriSubItem> {
               const Divider(),
               Visibility(
                 visible: widget.open,
-                child: Container(
-                  color: Colors.blue,
-                  child: Column(
-                    children: widget.data.children
-                        .map((data) => CategoryChildrenItems(data))
-                        .toList(),
-                  ),
+                child: Wrap(
+                  children: widget.data.children
+                      .map((data) => CategoryChildrenItems(data))
+                      .toList(),
                 ),
               ),
             ],
@@ -198,21 +197,46 @@ class _CategoriSubItemState extends State<CategoriSubItem> {
 
 class CategoryChildrenItems extends StatelessWidget {
   var data;
-  CategoryChildrenItems(this.data);
+  CategoryChildrenItems(this.data, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.network(
-              data['iconUrl'].toString().replaceAll('{size}', '50-50'),
+    double x = MediaQuery.of(context).size.width;
+    return GestureDetector(
+      onTap: () {
+        print(data);
+      },
+      child: SizedBox(
+        width: ((x - 120) / 3),
+        height: 115,
+        child: Column(
+          children: [
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(5),
+                child: Image.network(
+                  data['iconUrl'].toString().replaceAll('{size}', '100-100'),
+                  height: 70,
+                  width: 70,
+                ),
+              ),
             ),
-          ),
+            Expanded(
+              child: Center(
+                child: Text(
+                  data['title'].toString(),
+                  maxLines: 3,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[700],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        Text(data['title'].toString()),
-      ],
+      ),
     );
   }
 }

@@ -85,6 +85,7 @@ class _CategoriesState extends State<Categories> {
                             ),
                           ),
                           Expanded(
+                        
                             child: SizedBox(
                               height: y,
                               child: SingleChildScrollView(
